@@ -1,8 +1,9 @@
 sap.ui.define([
 	"BasicFiori-Routing/controller/BaseController",
 	"sap/ui/model/json/JSONModel",
-	"sap/ui/Device"
-], function(BaseController, JSONModel, Device) {
+	"sap/ui/Device",
+	"sap/m/MessageToast"
+], function(BaseController, JSONModel, Device,MessageToast) {
 	"use strict";
 
 	return BaseController.extend("BasicFiori-Routing.controller.Material", {
@@ -23,17 +24,23 @@ sap.ui.define([
 			oList.attachEventOnce("updateFinished", function() {
 				oViewModel.setProperty("/delay", iOriginalBusyDelay);
 			});
-			oModel.read("/ZmatSet", {
-				success: function(data) {
-					jsonModel.setData(data);
-					oList.setBusy(false);
-					that.getView().setModel(jsonModel, "MaterialModel");
-				},
-				error: function(error) {
-					oList.setBusy(false);
-					console.log("error" + error);
-				}
-			});
+			if( navigator.onLine) {
+				MessageToast.show("Online");
+				oModel.read("/ZmatSet", {
+					success: function(data) {
+						jsonModel.setData(data);
+						oList.setBusy(false);
+						that.getView().setModel(jsonModel, "MaterialModel");
+					},
+					error: function(error) {
+						oList.setBusy(false);
+						console.log("error" + error);
+					}
+				});
+			} else {
+				MessageToast.show("Offline");
+			}
+
 		},
 		onRefresh: function() {
 			this._oList.getBinding("items").refresh();
@@ -53,7 +60,7 @@ sap.ui.define([
 			var bReplace = !Device.system.phone,
 				selectedMaterial = new JSONModel();
 			selectedMaterial.setData(oItem.getBindingContext("MaterialModel").getProperty());
-			this.getOwnerComponent().setModel( selectedMaterial,"selectedMaterial");
+			this.getOwnerComponent().setModel(selectedMaterial, "selectedMaterial");
 			this.getRouter().navTo("materialDetails", {
 				MaterialId: oItem.getBindingContext("MaterialModel").getProperty("Material")
 			}, bReplace);
