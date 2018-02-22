@@ -1,0 +1,124 @@
+<mvc:View
+	xmlns:l="sap.ui.layout"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:core="sap.ui.core"
+     xmlns:viz="sap.viz.ui5.controls" 
+	xmlns="sap.m" controllerName="BasicFiori-Routing.controller.CustomerDetail">
+	<Page
+		title="{i18n>detailPageTitle}"
+		showNavButton="true"
+		navButtonPress="onNavBack">
+        <l:VerticalLayout
+		      class="sapUiContentPadding">
+		<l:content>
+        
+			<List
+                id="customerDetailsItem"
+				
+				headerText=" Customer Details:" >
+                <DisplayListItem
+					label="Id"
+					value="{Orders>/Customer/Id}"
+                    />
+				<DisplayListItem
+					label="CompanyName"
+					value="{Orders>/Customer/CompanyName}" />
+                <DisplayListItem
+					label="ContactTitle"
+					value="{Orders>/Customer/ContactTitle}" />
+				<DisplayListItem
+					label="Address"
+					value="{Orders>/Customer/Address}, {Orders>/Customer/City}, 
+                           {Orders>/Customer/PostalCode} , {Orders>/Customer/Country}" />
+				<DisplayListItem
+					label="Phone"
+					value="{Orders>/Customer/Phone} "/>
+				<DisplayListItem
+					label="Fax"
+					value="{Orders>/Customer/Fax}"/>
+			</List>
+            
+            <IconTabBar
+                    id="idIconTabBar"
+                    select="handleIconTabBarSelect"
+                    class="sapUiResponsiveContentPadding">
+                    <items>
+                        <IconTabFilter
+                            showAll="true"
+                            count="{Orders>/orderDetailsCount}"
+                            text="Order Details" 
+                            key="All"/>
+                        <IconTabSeparator />
+                        <IconTabFilter
+                            icon="sap-icon://pie-chart"
+                            iconColor="Positive"
+                            text="Order Details Chart"
+                            key="PieChart" 
+                            visible="{= ${Orders>/orderDetailsCount} >= 2 ? true : false}"/>
+                    </items>
+	       </IconTabBar>
+            
+            <Table id="idCustomerOrdersTable" visible="{= ${Orders>/stepStatus} === 'All' ? true : false}"
+                inset="false"
+                 items="{Orders>/CustomerOrders}">
+                <headerToolbar>
+                    <Toolbar>
+                        <Title text="Customer Orders" level="H2"/>
+                    </Toolbar>
+                </headerToolbar>
+                <columns>
+                    <Column>
+                        <Text text="OrderId"/>
+                    </Column>
+                    <Column>
+                        <Text text="EmployeeId" />
+                    </Column>
+                    <Column>
+                        <Text text="ShipAddress" />
+                    </Column>
+                    <Column>
+                        <Text text="ShipCity" />
+                    </Column>
+                    <Column>
+                        <Text text="ShipCountry" />
+                    </Column>
+                    <Column>
+                        <Text text="ShipName" />
+                    </Column>
+                    <Column>
+                        <Text text="ShipPostalCode" />
+                    </Column>
+                    <Column>
+                        <Text text="ShippedDate" />
+                    </Column>
+                </columns>
+                <items>
+                    <ColumnListItem type="Navigation" press="onPress">
+                        <cells>
+                            <Text
+                                text="{Orders>Order/Id}" />
+                            <Text
+                                text="{Orders>Order/EmployeeId}" />
+                            <Text
+                                text="{Orders>Order/ShipAddress}" />
+                            <Text
+                                text="{Orders>Order/ShipCity}" />
+                            <Text
+                                text="{Orders>Order/ShipCountry}" />
+                            <Text
+                                text="{Orders>Order/ShipName}" />
+                            <Text
+                                text="{Orders>Order/ShipPostalCode}" />
+                            <Text 
+                                  text="{path: 'Orders>Order/ShippedDate',
+                                formatter: '.formatter.formatDate'}" />
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
+            <viz:VizFrame xmlns="sap.viz" id="idpiechart" vizType="pie" width="100%" 
+                              visible="{= ${Orders>/stepStatus} === 'PieChart' ? true : false}"></viz:VizFrame>
+		</l:content>
+	</l:VerticalLayout>
+	</Page>
+</mvc:View>

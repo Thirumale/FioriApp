@@ -1,0 +1,89 @@
+<!DOCTYPE HTML>
+<html>
+
+
+	<!-- IMPORTANT
+		This HTML file is meant for testing the application/component standalone, outside the Unified Shell.
+		Some integration functionality, personalization etc. will not be available when running standalone.
+	 -->
+	
+	
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta charset="UTF-8">
+        
+		
+		<title>Material List</title>
+		
+		<script id="sap-ui-bootstrap"
+				src="/resources/sap-ui-core.js"
+				data-sap-ui-libs="sap.m, sap.me"
+				data-sap-ui-theme="sap_bluecrystal"
+				data-sap-ui-xx-bindingSyntax="complex"
+				data-sap-ui-compatVersion="edge"
+				data-sap-ui-resourceroots='{"BasicFiori-Routing": "./"}'>
+			
+		</script>
+		
+		<!-- Application launch configuration -->
+		<script>
+		sap.ui.getCore().attachInit(function () {
+			new sap.m.Shell({
+				app: new sap.ui.core.ComponentContainer({
+					name: "BasicFiori-Routing",
+					height: "100%"
+				})
+			}).placeAt("content");
+		});
+		</script>
+		
+		
+		
+		<style id="SAP-antiClickjackStyle" type="text/css">
+			body { display : none !important; }
+		</style>
+		
+		<script type="text/javascript">
+			// clickjacking protection code
+			(function () {
+				"use strict";
+				/*global window, document, parent, top, self */
+				var loc, err;
+				
+				function unlock() {
+					var antiClickjack;
+					antiClickjack = document.getElementById("SAP-antiClickjackStyle");
+					antiClickjack.parentNode.removeChild(antiClickjack);
+				}
+				
+				if (top === self) {
+					// page is not embedded
+					unlock();
+				} else {
+					// page embedded, check for same domain
+					try {
+						//try to access a property of parent to check same
+						domain
+						loc = parent.location.href;
+						if (typeof loc !== "undefined") {
+							unlock();
+						}
+					} catch (e) {
+						// fail and stay hidden
+						err = new Error();
+						err.name = "ClickjackingProtectionError";
+						err.message = "Clickjacking protection prevented the Application to load in a frame";
+						throw(err);
+					}
+				}
+			}());
+		</script>
+	
+	</head>
+	
+	<!-- UI Content -->
+	<body class="sapUiBody" id="content" role="application">
+	</body>
+	
+</html>

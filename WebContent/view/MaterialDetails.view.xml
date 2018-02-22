@@ -1,0 +1,22 @@
+<mvc:View xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.m.semantic" xmlns:footerbar="sap.ushell.ui.footerbar"
+	controllerName="BasicFiori-Routing.controller.MaterialDetails" xmlns:html="http://www.w3.org/1999/xhtml">
+	<semantic:DetailPage id="page" navButtonPress="onNavBack" showNavButton="true" title="Material Details" busy="{detailView>/busy}"
+		busyIndicatorDelay="{detailView>/delay}">
+		<semantic:content>
+			<ObjectHeader  title="{selectedMaterial>/Description}"
+				number="{ path: 'selectedMaterial>/Price', formatter: '.formatter.currencyValue' }" numberUnit="{selectedMaterial>/Type}"></ObjectHeader>
+			<IconTabBar id="iconTabBar" class="sapUiResponsiveContentPadding">
+				<items>
+					<IconTabFilter id="iconTabBarFilter1" icon="sap-icon://Edit" tooltip="{i18n>detailIconTabBarInfo}"></IconTabFilter>
+				
+				</items>
+			</IconTabBar>
+		</semantic:content>
+		<semantic:positiveAction>
+			<semantic:PositiveAction text="Edit" press="onSemanticButtonPress"/>
+		</semantic:positiveAction>
+		<semantic:negativeAction>
+			<semantic:NegativeAction text="Cancel" press="onSemanticButtonPress"/>
+		</semantic:negativeAction>
+	</semantic:DetailPage>
+</mvc:View>
