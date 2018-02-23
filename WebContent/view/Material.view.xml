@@ -31,7 +31,7 @@
 			</List>
 		</semantic:content>
 		<semantic:addAction>
-			<semantic:AddAction press="onSemanticButtonPress"/>
+			<semantic:AddAction press="onSemanticAddButtonPress"/>
 		</semantic:addAction>
 	</semantic:MasterPage>
 </mvc:View>

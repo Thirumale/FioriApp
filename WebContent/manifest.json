@@ -97,7 +97,15 @@
 					"material",
 					"materialDetails"
 				]
-			}, {
+			}, 
+			{
+				"pattern": "materialCreate",
+				"name": "materialCreate",
+				"target": [
+					"material",
+					"materialCreate"
+				]
+			},{
 				"pattern": "customerDetail/{customerId}",
 				"name": "customerDetail",
 				"target": "customerDetail"
@@ -113,6 +121,10 @@
 				},
 				"materialDetails": {
 					"viewName": "MaterialDetails",
+					"controlAggregation": "detailPages"
+				},
+				"materialCreate":{
+						"viewName": "materialCreate",
 					"controlAggregation": "detailPages"
 				},
 				"overview": {
