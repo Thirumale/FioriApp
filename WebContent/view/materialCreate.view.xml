@@ -8,11 +8,11 @@
 						<f:SimpleForm id="createSimpleId"
 			editable="true"
 			layout="ResponsiveGridLayout"
-			title="Address"
+			title="Material"
 			labelSpanXL="4"
 			labelSpanL="3"
 			labelSpanM="4"
-			labelSpanS="12"
+			labelSpanS="6"
 			adjustLabelSpan="false"
 			emptySpanXL="0"
 			emptySpanL="4"
@@ -25,17 +25,17 @@
 			<f:content>
 				<Label text="Description" />
 				<Input id = "DescriptionCreateId"  />
+				<Label text = "Type"/>
+				<Input id = "typeCreateId" maxLength = "4" />
 				<Label text="Price" />
-					<Input  id = "priceCreateId" >
+					<Input  id = "priceCreateId" type = "Number">
 					<layoutData>
 						<l:GridData span="XL1 L2 M2 S4" />
 					</layoutData>
 				</Input>
-				<Input id = "UnitCreateId" placeholder = "Unit" />
-				<Label text = "Type"/>
-				<Input id = "typeCreateId"  />
+				<Text id = "UnitCreateId" text = "EA" />
 				<Label text="Quantity" />
-				<Input id="QuantityCreateId" />
+				<Input id="QuantityCreateId" type = "Number"/>
 			</f:content>
 		</f:SimpleForm>
 				</content>

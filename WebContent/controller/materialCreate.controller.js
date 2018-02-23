@@ -11,9 +11,16 @@ sap.ui.define([
 		 * Can be used to modify the View before it is displayed, to bind event handlers and do other one-time initialization.
 		 * @memberOf prokarma.view.view.materialCreate
 		 */
-		//	onInit: function() {
-		//
-		//	},
+			onInit: function() {
+		this.getRouter().getRoute("materialCreate").attachPatternMatched(this._onObjectMatched, this);
+			},
+			
+		_onObjectMatched:function(){
+				this.getView().byId("DescriptionCreateId").setValue("");
+			this.getView().byId("priceCreateId").setValue("");
+			this.getView().byId("typeCreateId").setValue("");
+			this.getView().byId("QuantityCreateId").setValue("");
+		},
 		
 		onNavBack:function(){
 				var that = this;
@@ -36,7 +43,7 @@ sap.ui.define([
 			var price = this.getView().byId("priceCreateId").getValue();
 			var type = this.getView().byId("typeCreateId").getValue();
 			var quantity = this.getView().byId("QuantityCreateId").getValue();
-			var unit = this.getView().byId("UnitCreateId").getValue();
+			var unit = this.getView().byId("UnitCreateId").getText();
 			var data = {
 				"Price": price,
 				"Description": desc,

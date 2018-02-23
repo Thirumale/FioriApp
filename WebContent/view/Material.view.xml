@@ -13,7 +13,7 @@
 			<PullToRefresh id="pullToRefresh" visible="{device>/support/touch}" refresh="onRefresh"/>
 			<!-- For client side filtering add this to the items attribute:  parameters: {operationMode: 'Client'}}" -->
 			<List id="list"
-				items="{ path: 'MaterialModel>/results', sorter: { path: 'MaterialModel>Material', descending: false }, groupHeaderFactory: '.createGroupHeader' }"
+				items="{ path: 'MaterialModel>/results', sorter: { path: 'MaterialModel>Material', descending: true }, groupHeaderFactory: '.createGroupHeader' }"
 				busyIndicatorDelay="{masterView>/delay}" noDataText="{masterView>/noDataText}"
 				mode="{=${device>/support/touch} ? 'None' : 'SingleSelectMaster'}" growing="true" growingScrollToLoad="true"
 				updateFinished="onUpdateFinished" selectionChange="onSelectionChange">

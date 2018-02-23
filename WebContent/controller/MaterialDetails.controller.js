@@ -54,7 +54,6 @@ sap.ui.define([
 		onEditButtonPress: function() {
 			this.getView().byId("priceId").setEditable(!this.getView().byId("priceId").getEditable());
 			this.getView().byId("typeId").setEditable(!this.getView().byId("typeId").getEditable());
-			this.getView().byId("unitId").setEditable(!this.getView().byId("unitId").getEditable());
 			this.getView().byId("QuantityId").setEditable(!this.getView().byId("QuantityId").getEditable());
 			this.getView().byId("DescriptionId").setEditable(!this.getView().byId("DescriptionId").getEditable());
 			this.getView().byId("editButtonId").setVisible(!this.getView().byId("editButtonId").getVisible());
@@ -69,7 +68,7 @@ sap.ui.define([
 			var price = this.getView().byId("priceId").getValue();
 			var type = this.getView().byId("typeId").getValue();
 			var quantity = this.getView().byId("QuantityId").getValue();
-			var unit = this.getView().byId("unitId").getValue();
+			var unit = this.getView().byId("unitId").getText();
 			var data = {
 				"Material": material,
 				"Price": price,
