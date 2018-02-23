@@ -1,9 +1,9 @@
-sap.ui.define([], function () {
+sap.ui.define([], function() {
 	"use strict";
 
 	return {
 
-		statusText: function (sStatus) {
+		statusText: function(sStatus) {
 			var oResourceBundle = this.getView().getModel("i18n").getResourceBundle();
 
 			switch (sStatus) {
@@ -17,22 +17,47 @@ sap.ui.define([], function () {
 					return sStatus;
 			}
 		},
-        
-        formatDate : function(v) {   
-            if(v) {
-               let date = v.substring(6, v.length-2);
-                jQuery.sap.require("sap.ui.core.format.DateFormat");
-                var oDateFormat = sap.ui.core.format.DateFormat.getDateTimeInstance({pattern: "dd-MM-YYYY"});
-                //console.log("v", new Date(parseInt(date)));
-                return oDateFormat.format(new Date(parseInt(date))); 
-            } else { return ""}
-            
-        },
-        
-        totalPriceCalculation: function (unitPrice, discount, quantity) {
-            var totalPrice = unitPrice * quantity;
-            var totalPrice = totalPrice - ( totalPrice * discount);
-            return totalPrice;
-        }
+		currencyValue: function(sValue) {
+			if (!sValue) {
+				return "";
+			}
+
+			return "$ " + parseFloat(sValue).toFixed(0);
+		},
+		onlineFormaterType: function(sValue) {
+			if (sValue==="Online") {
+				return "Accept";
+			}
+			else{
+				return "Reject";
+			}
+		},
+		currencyValueEdit: function(sValue) {
+			if (!sValue) {
+				return "";
+			}
+
+			return  parseFloat(sValue).toFixed(0);
+		},
+		formatDate: function(v) {
+			if (v) {
+				let date = v.substring(6, v.length - 2);
+				jQuery.sap.require("sap.ui.core.format.DateFormat");
+				var oDateFormat = sap.ui.core.format.DateFormat.getDateTimeInstance({
+					pattern: "dd-MM-YYYY"
+				});
+				//console.log("v", new Date(parseInt(date)));
+				return oDateFormat.format(new Date(parseInt(date)));
+			} else {
+				return ""
+			}
+
+		},
+
+		totalPriceCalculation: function(unitPrice, discount, quantity) {
+			var totalPrice = unitPrice * quantity;
+			var totalPrice = totalPrice - (totalPrice * discount);
+			return totalPrice;
+		}
 	};
 });

@@ -41,8 +41,8 @@
 				<footer>
 					<ToolBar>
 						<ToolbarSpacer/>
-						<Button id = "onSavebtnId" text = "Create" type = "Accept" press = "onCreatePressed"/>
-						<Button text = "Cancel" type = "Reject" press = "onCancelPressed"/>
+							<Button text = "Clear" press = "onClearPressed"/>
+							<Button id = "onSavebtnId" text = "Create" type = "Accept" press = "onCreatePressed"/>
 					</ToolBar>
 				</footer>
 			</Page>

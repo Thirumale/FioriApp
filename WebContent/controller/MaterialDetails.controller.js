@@ -26,7 +26,7 @@ sap.ui.define([
 
 		},
 		_onObjectMatched: function(oEvent) {
-			//this.setModel(this.getOwnerComponent().getModel("selectedMaterial"), "selectedMaterial");
+			this.setModel(this.getOwnerComponent().getModel("selectedMaterial"), "selectedMaterial");
 		},
 		
 		onNavBack:function(){

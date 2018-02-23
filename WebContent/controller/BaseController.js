@@ -2,8 +2,9 @@
 sap.ui.define([
 	"sap/ui/core/mvc/Controller",
 	"sap/ui/core/routing/History",
-		"sap/m/MessageToast"
-], function(Controller, History,MessageToast) {
+	"sap/m/MessageToast",
+	"BasicFiori-Routing/model/formatter"
+], function(Controller, History, MessageToast, formatter) {
 	"use strict";
 
 	return Controller.extend("BasicFiori-Routing.controller.BaseController", {
@@ -12,11 +13,24 @@ sap.ui.define([
 		 * @public
 		 * @returns {sap.ui.core.routing.Router} the router for this component
 		 */
+		formatter: formatter,
 		getRouter: function() {
 			return this.getOwnerComponent().getRouter();
 		},
+		setConnection: function() {
+			var that = this;
+			if (navigator.onLine) {
+				that.getOwnerComponent().getModel("device").getData().connected = "Online"
+				setTimeout($("header").removeClass("offline"), 1000);
+			} else {
+				that.getOwnerComponent().getModel("device").getData().connected = "Offline";
+				setTimeout($("header").addClass("offline"), 1000);
+			}
+			that.getOwnerComponent().getModel("device").refresh(true);
+
+		},
 		showToster: function(msg) {
-		return	MessageToast.show(msg, {
+			return MessageToast.show(msg, {
 				duration: 3000, // default
 				width: "15em", // default
 				my: "center bottom", // default

@@ -1,11 +1,14 @@
 <mvc:View controllerName="BasicFiori-Routing.controller.Material" xmlns:mvc="sap.ui.core.mvc" xmlns:core="sap.ui.core" xmlns="sap.m"
 	xmlns:semantic="sap.m.semantic">
-	<semantic:MasterPage id="page" title="{device>/connected} {masterView>/title}" navButtonPress="onNavBack" showNavButton="true">
+	<semantic:MasterPage id="page" title="{masterView>/title}" navButtonPress="onNavBack" showNavButton="true">
 		<semantic:subHeader>
 			<Bar id="headerBar">
 				<contentMiddle>
-					<SearchField id="searchField" showRefreshButton="{= !${device>/support/touch} }" tooltip="{i18n>masterSearchTooltip}" width="100%"
-						liveChange="onSearch"></SearchField>
+					<HBox class="searchWithButtons">
+						<SearchField id="searchField" showRefreshButton="{= !${device>/support/touch} }" tooltip="{i18n>masterSearchTooltip}" width="100%"
+							liveChange="onSearch"></SearchField>
+						<Button id="scanner" icon="sap-icon://bar-code" press="scanMaterial"/>
+					</HBox>
 				</contentMiddle>
 			</Bar>
 		</semantic:subHeader>
@@ -23,13 +26,17 @@
 					</Toolbar>
 				</infoToolbar>
 				<items>
-					<ObjectListItem type="{=${device>/system/phone} ? 'Active' : 'Inactive'}" press="onSelectionChange" title="{MaterialModel>Material}"
-						number="{ path: 'MaterialModel>Price', formatter: '.formatter.currencyValue' }" numberUnit="{MaterialModel>Type}">
-						<ObjectAttribute text="{MaterialModel>Description}"/>
+					<ObjectListItem type="{=${device>/system/phone} ? 'Active' : 'Inactive'}" press="onSelectionChange" title="{MaterialModel>Description}"
+						number="{ path: 'MaterialModel>Price', formatter: '.formatter.currencyValue' }" numberUnit="{MaterialModel>Unit}">
+						<ObjectAttribute title="Material ID" text="{MaterialModel>Material}"/>
+						<ObjectAttribute title="Type" text="{MaterialModel>Type}"/>
 					</ObjectListItem>
 				</items>
 			</List>
 		</semantic:content>
+		<semantic:customFooterContent>
+			<!--	<Button type="{ path: 'device>/connected', formatter: '.formatter.onlineFormaterType' }" id="online" text="{device>/connected}"/>-->
+		</semantic:customFooterContent>
 		<semantic:addAction>
 			<semantic:AddAction press="onSemanticAddButtonPress"/>
 		</semantic:addAction>

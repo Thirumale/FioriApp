@@ -22,35 +22,51 @@ sap.ui.define([
 				oViewModel.setProperty("/delay", iOriginalBusyDelay);
 			});
 			if (navigator.onLine) {
-				that.getOwnerComponent().getModel("device").getData().connected = "online"
 				oModel.read("/ZmatSet", {
 					success: function(data) {
 						jsonModel.setData(data);
 						oList.setBusy(false);
 						that.getView().setModel(jsonModel, "MaterialModel");
+						that.getView().byId("pullToRefresh").hide();
 					},
 					error: function(error) {
 						oList.setBusy(false);
 						console.log("error" + error);
 					}
 				});
+				var offlineInterval = setInterval(function() {
+					onlineCbk();
+				}, 3000);
+
+				function onlineCbk() {
+					if (!navigator.onLine) {
+						clearInterval(offlineInterval);
+						that.showToster("You are offline please connect to Internet to sync.");
+						that.setConnection();
+
+					}
+				}
 			} else {
-				that.showToster("You are viewing offline data");
-				that.getOwnerComponent().getModel("device").getData().connected = "offline"
 				oList.setBusy(false);
-				var myVar = setInterval(function() {
+				that.getView().byId("pullToRefresh").hide();
+				that.showToster("Your viewing offline data");
+				var onlineInterval = setInterval(function() {
 					onlineCbk();
 				}, 3000);
 
 				function onlineCbk() {
 					if (navigator.onLine) {
+						clearInterval(onlineInterval);
 						that._onMasterMatched();
+						that.setConnection();
 						that.showToster("Your Online, Please bare with us your data is getting Sync");
-						clearInterval(myVar);
 					}
 				}
 			}
 
+		},
+		onBeforeRendering: function() {
+			setTimeout(this.setConnection(), 1000);
 		},
 		onSearch: function(oEvt) {
 			var that = this;
@@ -72,9 +88,15 @@ sap.ui.define([
 				this.getView().byId("list").getBinding("items").filter(filters);
 			}
 		},
-		onRefresh: function() {
+		scanMaterial: function() {
+			var oList = this.byId("list");
+			oList.setBusy(true);
 			this._onMasterMatched();
-			setTimeout(this.getView().byId("pullToRefresh").hide(), 3000);
+		},
+		onRefresh: function() {
+			var oList = this.byId("list");
+			oList.setBusy(true);
+			this._onMasterMatched();
 		},
 		_createViewModel: function() {
 			return new JSONModel({

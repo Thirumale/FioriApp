@@ -1,4 +1,7 @@
-.offline .sapMPageHeader{
+.offline.sapMPageHeader{
 	background:lightgray;
 	color:#FFF;
+}
+.searchWithButtons form{
+	width:89vw;
 }

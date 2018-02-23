@@ -3,8 +3,8 @@ sap.ui.define([
                "sap/ui/model/json/JSONModel",
                "sap/ui/model/resource/ResourceModel",
                "BasicFiori-Routing/model/models",
-               "BasicFiori-Routing/controller/HelloDialog"
-               ], function (UIComponent, JSONModel, ResourceModel,models, HelloDialog) {
+          
+               ], function (UIComponent, JSONModel, ResourceModel,models) {
 	"use strict";
 	return UIComponent.extend("BasicFiori-Routing.Component", {
 		metadata : {
@@ -60,9 +60,7 @@ sap.ui.define([
 				   bundleName: "BasicFiori-Routing.i18n.messageBundle"
 			   });
 			   this.setModel(i18nModel, "i18n");
-			// set dialog	
-			   this.helloDialog = new HelloDialog();
-			   
+		
 			   //Router
 			// create the views based on the url/hash
 				this.getRouter().initialize();

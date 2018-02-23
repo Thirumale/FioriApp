@@ -6,6 +6,7 @@ sap.ui.define([
 
 		return {
 			createDeviceModel : function () {
+				navigator.onLine ? Device.connected="Online" : Device.connected="Offline";
 				var oModel = new JSONModel(Device);
 				oModel.setDefaultBindingMode("OneWay");
 				return oModel;

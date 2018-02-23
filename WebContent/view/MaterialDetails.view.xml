@@ -1,62 +1,49 @@
-<mvc:View id = "detail" xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.m.semantic" xmlns:footerbar="sap.ushell.ui.footerbar" xmlns:l="sap.ui.layout"
-	xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core"
-	controllerName="BasicFiori-Routing.controller.MaterialDetails" xmlns:html="http://www.w3.org/1999/xhtml">
+<mvc:View id="detail" xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.m.semantic" xmlns:footerbar="sap.ushell.ui.footerbar"
+	xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core" controllerName="BasicFiori-Routing.controller.MaterialDetails"
+	xmlns:html="http://www.w3.org/1999/xhtml">
 	<semantic:DetailPage id="page" navButtonPress="onNavBack" showNavButton="true" title="Material Details" busy="{detailView>/busy}"
 		busyIndicatorDelay="{detailView>/delay}">
 		<semantic:content>
-			<ObjectHeader  title="{selectedMaterial>/Description}"
-				number="{ path: 'selectedMaterial>/Price', formatter: '.formatter.currencyValue' }" numberUnit="{selectedMaterial>/Type}"></ObjectHeader>
+			<ObjectHeader title="{selectedMaterial>/Description}" number="{ path: 'selectedMaterial>/Price', formatter: '.formatter.currencyValue' }"
+				numberUnit="{selectedMaterial>/Unit}">
+				<ObjectAttribute title="Material ID" text="{selectedMaterial>/Material}"/>
+				<ObjectAttribute title="Type" text="{selectedMaterial>/Type}"/>
+			</ObjectHeader>
 			<IconTabBar id="iconTabBar" class="sapUiResponsiveContentPadding">
 				<items>
 					<IconTabFilter id="iconTabBarFilter1" icon="sap-icon://create" tooltip="{i18n>detailIconTabBarInfo}"></IconTabFilter>
 				</items>
-					</IconTabBar>
-				<f:SimpleForm id="SimpleFormDisplay354wide"
-			editable="true"
-			layout="ResponsiveGridLayout"
-			title="Material"
-			labelSpanXL="4"
-			labelSpanL="3"
-			labelSpanM="4"
-			labelSpanS="3"
-			adjustLabelSpan="false"
-			emptySpanXL="0"
-			emptySpanL="4"
-			emptySpanM="0"
-			emptySpanS="0"
-			columnsXL="2"
-			columnsL="1"
-			columnsM="1"
-			singleContainerFullSize="false">
-			<f:content>
-				<Label text="Material" />
-				<Input id="materialId" value="{selectedMaterial>/Material}" editable = "false"/>
-				<Label text="Description" />
-				<Input id = "DescriptionId" value="{selectedMaterial>/Description}" editable = "false" />
-					<Label text = "Type"/>
-				<Input id = "typeId" value="{selectedMaterial>/Type}" editable = "false" maxLength = "4"/>
-				<Label text="Price" />
-					<Input id = "priceId" value="{selectedMaterial>/Price}" editable = "false" type = "Number">
-					<layoutData>
-						<l:GridData span="XL1 L2 M2 S4" />
-					</layoutData>
-				</Input>
-				<Text id = "unitId" text="{selectedMaterial>/Unit}"/>
-				<Label text="Quantity" />
-				<Input id="QuantityId" value="{selectedMaterial>/Quantity}" editable = "false" type = "Number"/>
-			</f:content>
-		</f:SimpleForm>
+			</IconTabBar>
+			<f:SimpleForm id="SimpleFormDisplay354wide" editable="true" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="3" labelSpanM="4"
+				labelSpanS="3" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="4" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="1" columnsM="1"
+				singleContainerFullSize="false">
+				<f:content>
+					<Label text="Material"/>
+					<Input id="materialId" value="{selectedMaterial>/Material}" editable="false"/>
+					<Label text="Description"/>
+					<Input id="DescriptionId" value="{selectedMaterial>/Description}" editable="false"/>
+					<Label text="Type"/>
+					<Input id="typeId" value="{selectedMaterial>/Type}" editable="false" maxLength="4"/>
+					<Label text="$ Price"/>
+					<Input id="priceId" value="{path: 'selectedMaterial>/Price', formatter: '.formatter.currencyValueEdit'}" editable="false" type="Number">
+						<layoutData>
+							<l:GridData span="XL1 L2 M2 S4"/>
+						</layoutData>
+					</Input>
+					<Text id="unitId" text="{selectedMaterial>/Unit}"/>
+					<Label text="Quantity"/>
+					<Input id="QuantityId" value="{path: 'selectedMaterial>/Quantity', formatter: '.formatter.currencyValueEdit'}" editable="false"
+						type="Number"/>
+				</f:content>
+			</f:SimpleForm>
 		</semantic:content>
-		<semantic:positiveAction>
-			<semantic:PositiveAction id = "editButtonId" text="Edit" press="onEditButtonPress"/>
-		</semantic:positiveAction>
-		
 		<semantic:customFooterContent>
-		<Button type = "Accept" id = "saveButtonId" text="Save" press="onSaveButtonPress" visible = "false"/>
-		<Button type = "Reject" id = "DeleteButtonId" text="Delete" press="onDeleteButtonPress" />
+			<Button type="Accept" id="saveButtonId" text="Save" press="onSaveButtonPress" visible="false"/>
+			<Button type="Reject" id="DeleteButtonId" text="Delete" press="onDeleteButtonPress"/>
+			<Button type="Accept" id="editButtonId" text="Edit" press="onEditButtonPress"/>
 		</semantic:customFooterContent>
 		<semantic:negativeAction>
-			<semantic:NegativeAction  id = "cancelButtonId" text="Cancel" press="onCancelButtonPress" visible = "false"/>
+			<semantic:NegativeAction id="cancelButtonId" text="Cancel" press="onCancelButtonPress" visible="false"/>
 		</semantic:negativeAction>
 	</semantic:DetailPage>
 </mvc:View>
