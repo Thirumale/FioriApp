@@ -11,11 +11,7 @@
 			</Toolbar>
 		</footer>
 		<content>
-			<Text
-				text="{i18n>WELCOME_TEXT}"
-				class="welcomeText" >
-			</Text>
-			<HBox
+		<HBox
 				alignItems="Center"
 				justifyContent="Center" >
 				<core:Icon

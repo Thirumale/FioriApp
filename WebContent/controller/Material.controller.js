@@ -2,7 +2,7 @@ sap.ui.define([
 	"BasicFiori-Routing/controller/BaseController",
 	"sap/ui/model/json/JSONModel",
 	"sap/ui/Device"
-], function(BaseController, JSONModel, Device ) {
+], function(BaseController, JSONModel, Device) {
 	return BaseController.extend("BasicFiori-Routing.controller.Material", {
 
 		onInit: function() {
@@ -22,7 +22,8 @@ sap.ui.define([
 				oViewModel.setProperty("/delay", iOriginalBusyDelay);
 			});
 			if (navigator.onLine) {
-					oModel.read("/ZmatSet", {
+				that.getOwnerComponent().getModel("device").getData().connected = "online"
+				oModel.read("/ZmatSet", {
 					success: function(data) {
 						jsonModel.setData(data);
 						oList.setBusy(false);
@@ -35,6 +36,7 @@ sap.ui.define([
 				});
 			} else {
 				that.showToster("You are viewing offline data");
+				that.getOwnerComponent().getModel("device").getData().connected = "offline"
 				oList.setBusy(false);
 				var myVar = setInterval(function() {
 					onlineCbk();
@@ -50,28 +52,29 @@ sap.ui.define([
 			}
 
 		},
-		onSearch:function(oEvt){
+		onSearch: function(oEvt) {
 			var that = this;
-		if(oEvt.getParameters().refreshButtonPressed){
-			that._onMasterMatched();
-		}else{
-			var filters = [];
-		var searchString = this.getView().byId("searchField").getValue();
-		if (searchString && searchString.length > 0) {
-			filters =  new sap.ui.model.Filter([
-				new sap.ui.model.Filter("Material", sap.ui.model.FilterOperator.Contains, searchString),
-				new sap.ui.model.Filter("Description", sap.ui.model.FilterOperator.Contains, searchString),
-				new sap.ui.model.Filter("Price", sap.ui.model.FilterOperator.Contains, searchString),
-				new sap.ui.model.Filter("Type", sap.ui.model.FilterOperator.Contains, searchString)
-			
-			]);
-		}
-		// Update list binding
-		this.getView().byId("list").getBinding("items").filter(filters);
-		}
+			if (oEvt.getParameters().refreshButtonPressed) {
+				that.onRefresh();
+			} else {
+				var filters = [];
+				var searchString = this.getView().byId("searchField").getValue();
+				if (searchString && searchString.length > 0) {
+					filters = new sap.ui.model.Filter([
+						new sap.ui.model.Filter("Material", sap.ui.model.FilterOperator.Contains, searchString),
+						new sap.ui.model.Filter("Description", sap.ui.model.FilterOperator.Contains, searchString),
+						new sap.ui.model.Filter("Price", sap.ui.model.FilterOperator.Contains, searchString),
+						new sap.ui.model.Filter("Type", sap.ui.model.FilterOperator.Contains, searchString)
+
+					]);
+				}
+				// Update list binding
+				this.getView().byId("list").getBinding("items").filter(filters);
+			}
 		},
 		onRefresh: function() {
-			this._oList.getBinding("items").refresh();
+			this._onMasterMatched();
+			setTimeout(this.getView().byId("pullToRefresh").hide(), 3000);
 		},
 		_createViewModel: function() {
 			return new JSONModel({
