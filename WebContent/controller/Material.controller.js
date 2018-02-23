@@ -94,7 +94,7 @@ sap.ui.define([
 
 			function scanSuccessCallback(result) {
 				that.showToster("We got a barcode " + result.text);
-				this.getView().byId("searchField").setValue(result.text);
+				that.getView().byId("searchField").setValue(result.text);
 				that.onSearch();
 			}
 
