@@ -1,5 +1,5 @@
 <mvc:View id = "detail" xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.m.semantic" xmlns:footerbar="sap.ushell.ui.footerbar" xmlns:l="sap.ui.layout"
-	xmlns:f="sap.ui.layout.form"
+	xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core"
 	controllerName="BasicFiori-Routing.controller.MaterialDetails" xmlns:html="http://www.w3.org/1999/xhtml">
 	<semantic:DetailPage id="page" navButtonPress="onNavBack" showNavButton="true" title="Material Details" busy="{detailView>/busy}"
 		busyIndicatorDelay="{detailView>/delay}">
@@ -14,7 +14,7 @@
 				<f:SimpleForm id="SimpleFormDisplay354wide"
 			editable="true"
 			layout="ResponsiveGridLayout"
-			title="Address"
+			title="Material"
 			labelSpanXL="4"
 			labelSpanL="3"
 			labelSpanM="4"
@@ -33,17 +33,17 @@
 				<Input id="materialId" value="{selectedMaterial>/Material}" editable = "false"/>
 				<Label text="Description" />
 				<Input id = "DescriptionId" value="{selectedMaterial>/Description}" editable = "false" />
+					<Label text = "Type"/>
+				<Input id = "typeId" value="{selectedMaterial>/Type}" editable = "false" maxLength = "4"/>
 				<Label text="Price" />
-					<Input id = "priceId" value="{selectedMaterial>/Price}" editable = "false">
+					<Input id = "priceId" value="{selectedMaterial>/Price}" editable = "false" type = "Number">
 					<layoutData>
 						<l:GridData span="XL1 L2 M2 S4" />
 					</layoutData>
 				</Input>
-				<Input id = "unitId" value="{selectedMaterial>/Unit}" editable = "false" />
-				<Label text = "Type"/>
-				<Input id = "typeId" value="{selectedMaterial>/Type}" editable = "false" />
+				<Text id = "unitId" text="{selectedMaterial>/Unit}"/>
 				<Label text="Quantity" />
-				<Input id="QuantityId" value="{selectedMaterial>/Quantity}" editable = "false"/>
+				<Input id="QuantityId" value="{selectedMaterial>/Quantity}" editable = "false" type = "Number"/>
 			</f:content>
 		</f:SimpleForm>
 		</semantic:content>
