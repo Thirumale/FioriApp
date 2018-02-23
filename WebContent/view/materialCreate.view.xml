@@ -1,0 +1,52 @@
+<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" controllerName="BasicFiori-Routing.controller.materialCreate"
+	xmlns:html="http://www.w3.org/1999/xhtml" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form">
+	<App>
+		<pages>
+			<Page navButtonPress="onNavBack" showNavButton="true" title=" Create Material" busy="{detailView>/busy}"
+		busyIndicatorDelay="{detailView>/delay}">
+				<content>
+						<f:SimpleForm id="createSimpleId"
+			editable="true"
+			layout="ResponsiveGridLayout"
+			title="Address"
+			labelSpanXL="4"
+			labelSpanL="3"
+			labelSpanM="4"
+			labelSpanS="12"
+			adjustLabelSpan="false"
+			emptySpanXL="0"
+			emptySpanL="4"
+			emptySpanM="0"
+			emptySpanS="0"
+			columnsXL="2"
+			columnsL="1"
+			columnsM="1"
+			singleContainerFullSize="false">
+			<f:content>
+				<Label text="Description" />
+				<Input id = "DescriptionCreateId"  />
+				<Label text="Price" />
+					<Input  id = "priceCreateId" >
+					<layoutData>
+						<l:GridData span="XL1 L2 M2 S4" />
+					</layoutData>
+				</Input>
+				<Input id = "UnitCreateId" placeholder = "Unit" />
+				<Label text = "Type"/>
+				<Input id = "typeCreateId"  />
+				<Label text="Quantity" />
+				<Input id="QuantityCreateId" />
+			</f:content>
+		</f:SimpleForm>
+				</content>
+				<footer>
+					<ToolBar>
+						<ToolbarSpacer/>
+						<Button id = "onSavebtnId" text = "Create" type = "Accept" press = "onCreatePressed"/>
+						<Button text = "Cancel" type = "Reject" press = "onCancelPressed"/>
+					</ToolBar>
+				</footer>
+			</Page>
+		</pages>
+	</App>
+</mvc:View>

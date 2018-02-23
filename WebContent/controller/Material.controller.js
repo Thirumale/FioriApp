@@ -67,8 +67,20 @@ sap.ui.define([
 		},
 
 		onSelectionChange: function(oEvent) {
+			var detailId = sap.ui.getCore().byId("__xmlview2--saveButtonId");
+			if(detailId !== undefined){
+				if(detailId.getVisible()){
+					return sap.m.MessageToast.show("please save/Cancel the Materail before moving");	
+				}
+			}
+			
+			
 			// get the list item, either from the listItem parameter or from the event's source itself (will depend on the device-dependent mode).
 			this._showDetail(oEvent.getParameter("listItem") || oEvent.getSource());
+		},
+		
+		onSemanticAddButtonPress:function(){
+				this.getRouter().navTo("materialCreate");
 		}
 
 	});

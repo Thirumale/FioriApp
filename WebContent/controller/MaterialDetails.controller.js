@@ -1,7 +1,8 @@
 sap.ui.define([
 	"BasicFiori-Routing/controller/BaseController",
-	"sap/ui/model/json/JSONModel"
-], function(BaseController, JSONModel) {
+	"sap/ui/model/json/JSONModel",
+	"sap/m/MessageBox"
+], function(BaseController, JSONModel, MessageBox) {
 	"use strict";
 
 	return BaseController.extend("BasicFiori-Routing.controller.MaterialDetails", {
@@ -25,8 +26,101 @@ sap.ui.define([
 
 		},
 		_onObjectMatched: function(oEvent) {
-			//this.setModel(this.getOwnerComponent().getModel("selectedMaterial"), "selectedMaterial");
+			this.setModel(this.getOwnerComponent().getModel("selectedMaterial"), "selectedMaterial");
+		},
+		
+		onNavBack:function(){
+			var that = this;
+			if(this.getView().byId("saveButtonId").getVisible()){
+				MessageBox.warning("The Unsaved Data will be lost. Do you want to Continue",{
+					actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
+					onClose: function(sAction) {
+						if(sAction === "OK"){
+						that.onEditButtonPress();	
+						that.getRouter().navTo("material");
+						}
+					}
+				});
+			}else{
+			that.getRouter().navTo("material");	
+			}	
+		},
+		
+		onCancelButtonPress:function(){
+			this.onEditButtonPress();
+			this._onObjectMatched();
+		},
+
+		onEditButtonPress: function() {
+			this.getView().byId("priceId").setEditable(!this.getView().byId("priceId").getEditable());
+			this.getView().byId("typeId").setEditable(!this.getView().byId("typeId").getEditable());
+			this.getView().byId("unitId").setEditable(!this.getView().byId("unitId").getEditable());
+			this.getView().byId("QuantityId").setEditable(!this.getView().byId("QuantityId").getEditable());
+			this.getView().byId("DescriptionId").setEditable(!this.getView().byId("DescriptionId").getEditable());
+			this.getView().byId("editButtonId").setVisible(!this.getView().byId("editButtonId").getVisible());
+			this.getView().byId("saveButtonId").setVisible(!this.getView().byId("saveButtonId").getVisible());
+			this.getView().byId("cancelButtonId").setVisible(!this.getView().byId("cancelButtonId").getVisible());
+			this.getView().byId("DeleteButtonId").setVisible(!this.getView().byId("DeleteButtonId").getVisible());
+		},
+		onSaveButtonPress: function() {
+			var that = this;
+			var material = this.getView().byId("materialId").getValue();
+			var desc = this.getView().byId("DescriptionId").getValue();
+			var price = this.getView().byId("priceId").getValue();
+			var type = this.getView().byId("typeId").getValue();
+			var quantity = this.getView().byId("QuantityId").getValue();
+			var unit = this.getView().byId("unitId").getValue();
+			var data = {
+				"Material": material,
+				"Price": price,
+				"Description": desc,
+				"Type": type,
+				"Quantity": quantity,
+				"Unit":unit
+			};
+			var updateData = {
+				"d": data
+			};
+			var oModel = this.getOwnerComponent().getModel("MainService");
+			if(navigator.onLine){
+			oModel.update("/ZmatSet('" + material + "')", updateData, {
+				method: "PUT",
+				success: function(data) {
+					MessageBox.success("The Materail Updated successfully",{
+					onClose: function(sAction) {
+							that.onEditButtonPress();
+					}
+				});
+			
+				//need to call reload the page with proper data
+				},
+				error: function(e) {
+				MessageBox.error(e.message);
+				}
+			});
+			}
+
+		},
+		
+		onDeleteButtonPress:function(){
+			var that = this;
+			var material = this.getView().byId("materialId").getValue();
+	var oModel = this.getOwnerComponent().getModel("MainService");
+	oModel.remove("/ZmatSet('"+material+"')", {
+    method: "DELETE",
+    success: function(data) {
+    	MessageBox.success("The Materail deleted successfully",{
+					onClose: function(sAction) {
+						that.getRouter().navTo("material");
+					}
+				});
+    },
+    error: function(e) {
+     	MessageBox.error(e.message);
+    }
+   });
 		}
+	
 
 		/**
 		 * Similar to onAfterRendering, but this hook is invoked before the controller's View is re-rendered
