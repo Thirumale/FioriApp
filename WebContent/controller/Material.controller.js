@@ -89,9 +89,19 @@ sap.ui.define([
 			}
 		},
 		scanMaterial: function() {
-			var oList = this.byId("list");
-			oList.setBusy(true);
-			this._onMasterMatched();
+			var that = this;
+			cordova.plugins.barcodeScanner.scan(scanSuccessCallback, scanErrorCallback);
+
+			function scanSuccessCallback(result) {
+				that.showToster("We got a barcode " + result.text);
+				this.getView().byId("searchField").setValue(result.text);
+				that.onSearch();
+			}
+
+			function scanErrorCallback(error) {
+				alert("Scanning failed: " + JSON.stringify(error));
+			}
+
 		},
 		onRefresh: function() {
 			var oList = this.byId("list");
