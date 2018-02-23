@@ -42,6 +42,26 @@ sap.ui.define([
 			}
 
 		},
+		onSearch:function(oEvt){
+			var that = this;
+		if(oEvt.getParameters().refreshButtonPressed){
+			that._onMasterMatched();
+		}else{
+			var filters = [];
+		var searchString = this.getView().byId("searchField").getValue();
+		if (searchString && searchString.length > 0) {
+			filters =  new sap.ui.model.Filter([
+				new sap.ui.model.Filter("Material", sap.ui.model.FilterOperator.Contains, searchString),
+				new sap.ui.model.Filter("Description", sap.ui.model.FilterOperator.Contains, searchString),
+				new sap.ui.model.Filter("Price", sap.ui.model.FilterOperator.Contains, searchString),
+				new sap.ui.model.Filter("Type", sap.ui.model.FilterOperator.Contains, searchString)
+			
+			]);
+		}
+		// Update list binding
+		this.getView().byId("list").getBinding("items").filter(filters);
+		}
+		},
 		onRefresh: function() {
 			this._oList.getBinding("items").refresh();
 		},
