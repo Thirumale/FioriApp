@@ -37,7 +37,7 @@ sap.ui.define([
 				that.getRouter().navTo("material");
 			}
 		},
-		onClearPressed:function(){
+		onClearPressed: function() {
 			this._onObjectMatched();
 		},
 		onCreatePressed: function() {
@@ -72,6 +72,19 @@ sap.ui.define([
 						MessageBox.error(e.message);
 					}
 				});
+			} else {
+				var localCreateObj = {
+					"url": "/ZmatSet",
+					"type": "C",
+					"data": createData
+				};
+				var offlineData = that.getOfflineData("offline");
+				var offlineMaterialModel = that.getOfflineData("offlineMaterialModel");
+				offlineMaterialModel.results.push(createData.d)
+				that.setOfflineData("offlineMaterialModel", offlineMaterialModel);
+				offlineData.push(localCreateObj);
+				that.setOfflineData("offline", offlineData);
+				that.getRouter().navTo("material");
 			}
 		}
 	});

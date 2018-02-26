@@ -24,11 +24,17 @@ sap.ui.define([], function() {
 
 			return "$ " + parseFloat(sValue).toFixed(0);
 		},
-		onlineFormaterType: function(sValue) {
-			if (sValue==="Online") {
-				return "Accept";
+		emptyMId: function(sValue) {
+			if (typeof sValue === "undefined") {
+				return "Created In Offline";
+			} else {
+				return sValue;
 			}
-			else{
+		},
+		onlineFormaterType: function(sValue) {
+			if (sValue === "Online") {
+				return "Accept";
+			} else {
 				return "Reject";
 			}
 		},
@@ -37,11 +43,11 @@ sap.ui.define([], function() {
 				return "";
 			}
 
-			return  parseFloat(sValue).toFixed(0);
+			return parseFloat(sValue).toFixed(0);
 		},
 		formatDate: function(v) {
 			if (v) {
-				let date = v.substring(6, v.length - 2);
+				var date = v.substring(6, v.length - 2);
 				jQuery.sap.require("sap.ui.core.format.DateFormat");
 				var oDateFormat = sap.ui.core.format.DateFormat.getDateTimeInstance({
 					pattern: "dd-MM-YYYY"
@@ -49,7 +55,7 @@ sap.ui.define([], function() {
 				//console.log("v", new Date(parseInt(date)));
 				return oDateFormat.format(new Date(parseInt(date)));
 			} else {
-				return ""
+				return "";
 			}
 
 		},

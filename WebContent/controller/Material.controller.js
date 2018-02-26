@@ -27,6 +27,7 @@ sap.ui.define([
 						jsonModel.setData(data);
 						oList.setBusy(false);
 						that.getView().setModel(jsonModel, "MaterialModel");
+						that.setOfflineData("offlineMaterialModel", data);
 						that.getView().byId("pullToRefresh").hide();
 					},
 					error: function(error) {
@@ -34,39 +35,62 @@ sap.ui.define([
 						console.log("error" + error);
 					}
 				});
-				var offlineInterval = setInterval(function() {
-					onlineCbk();
-				}, 3000);
+				that.offlineTimer();
 
-				function onlineCbk() {
-					if (!navigator.onLine) {
-						clearInterval(offlineInterval);
-						that.showToster("You are offline please connect to Internet to sync.");
-						that.setConnection();
-
-					}
-				}
 			} else {
-				oList.setBusy(false);
-				that.getView().byId("pullToRefresh").hide();
 				that.showToster("Your viewing offline data");
-				var onlineInterval = setInterval(function() {
-					onlineCbk();
-				}, 3000);
-
-				function onlineCbk() {
-					if (navigator.onLine) {
-						clearInterval(onlineInterval);
-						that._onMasterMatched();
-						that.setConnection();
-						that.showToster("Your Online, Please bare with us your data is getting Sync");
-					}
-				}
+				var offlineMaterialModel = that.getOfflineData("offlineMaterialModel");
+				jsonModel.setData(offlineMaterialModel);
+				oList.setBusy(false);
+				that.getView().setModel(jsonModel, "MaterialModel");
+				that.getView().byId("pullToRefresh").hide();
+				that.onlineTimer();
 			}
 
 		},
+		onlineTimer: function() {
+			var that = this;
+			if (typeof(that.onlineInterval) === "undefined") {
+				that.onlineInterval = setInterval(function() {
+					onlineCbk();
+				}, 3000);
+			}
+
+			function onlineCbk() {
+				if (navigator.onLine) {
+					clearInterval(that.onlineInterval);
+					that.onlineInterval = undefined;
+					that.setConnection();
+					that.showToster("Your Online, Please bare with us your data is getting Sync");
+					if (that.syncData()) {
+						that.hideBusyIndicator();
+						that._onMasterMatched();
+					}
+				}
+			}
+		},
+		offlineTimer: function() {
+			var that = this;
+			if (typeof(that.offlineInterval) === "undefined") {
+				that.setOfflineData("offline", []);
+				that.offlineInterval = setInterval(function() {
+					offlineCbk();
+				}, 3000);
+			}
+
+			function offlineCbk() {
+				if (!navigator.onLine) {
+					that.onlineTimer();
+					clearInterval(that.offlineInterval);
+					that.offlineInterval = undefined;
+					that.showToster("You are offline please connect to Internet to sync.");
+					that.setConnection();
+				}
+			}
+		},
 		onBeforeRendering: function() {
-			setTimeout(this.setConnection(), 1000);
+			var that = this;
+			setTimeout(that.setConnection(), 1000);
 		},
 		onSearch: function(oEvt) {
 			var that = this;
@@ -88,14 +112,14 @@ sap.ui.define([
 				this.getView().byId("list").getBinding("items").filter(filters);
 			}
 		},
-		scanMaterial: function() {
+		scanMaterial: function(oEvt) {
 			var that = this;
 			cordova.plugins.barcodeScanner.scan(scanSuccessCallback, scanErrorCallback);
 
 			function scanSuccessCallback(result) {
 				that.showToster("We got a barcode " + result.text);
 				that.getView().byId("searchField").setValue(result.text);
-				that.onSearch();
+				that.onSearch(oEvt);
 			}
 
 			function scanErrorCallback(error) {
@@ -125,7 +149,7 @@ sap.ui.define([
 			selectedMaterial.setData(oItem.getBindingContext("MaterialModel").getProperty());
 			this.getOwnerComponent().setModel(selectedMaterial, "selectedMaterial");
 			this.getRouter().navTo("materialDetails", {
-				MaterialId: oItem.getBindingContext("MaterialModel").getProperty("Material")
+				MaterialId: oItem.getBindingContext("MaterialModel").getProperty("Material") || "Ofline"
 			}, bReplace);
 		},
 

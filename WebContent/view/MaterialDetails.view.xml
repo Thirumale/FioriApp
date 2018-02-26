@@ -6,7 +6,7 @@
 		<semantic:content>
 			<ObjectHeader title="{selectedMaterial>/Description}" number="{ path: 'selectedMaterial>/Price', formatter: '.formatter.currencyValue' }"
 				numberUnit="{selectedMaterial>/Unit}">
-				<ObjectAttribute title="Material ID" text="{selectedMaterial>/Material}"/>
+				<ObjectAttribute title="Material ID" text="{ path: 'selectedMaterial>/Material', formatter: '.formatter.emptyMId' }"/>
 				<ObjectAttribute title="Type" text="{selectedMaterial>/Type}"/>
 			</ObjectHeader>
 			<IconTabBar id="iconTabBar" class="sapUiResponsiveContentPadding">
@@ -19,7 +19,7 @@
 				singleContainerFullSize="false">
 				<f:content>
 					<Label text="Material"/>
-					<Input id="materialId" value="{selectedMaterial>/Material}" editable="false"/>
+					<Input id="materialId" value="{ path: 'selectedMaterial>/Material', formatter: '.formatter.emptyMId' }" editable="false"/>
 					<Label text="Description"/>
 					<Input id="DescriptionId" value="{selectedMaterial>/Description}" editable="false"/>
 					<Label text="Type"/>

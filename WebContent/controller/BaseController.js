@@ -13,18 +13,71 @@ sap.ui.define([
 		 * @public
 		 * @returns {sap.ui.core.routing.Router} the router for this component
 		 */
+		 onInit:function(){
+		 	this.offlineInterval, this.onlineInterval;
+		 },
 		formatter: formatter,
 		getRouter: function() {
 			return this.getOwnerComponent().getRouter();
 		},
+		setOfflineData: function(name, data) {
+			localStorage.setItem(name, JSON.stringify(data));
+			return true;
+		},
+		setofflineTimer: function(name, clbk) {
+			clearInterval(name);
+			name = setInterval(function() {
+				clbk();
+			}, 3000);
+		},
+		hideBusyIndicator: function() {
+			sap.ui.core.BusyIndicator.hide();
+		},
+
+		showBusyIndicator: function(iDelay) {
+			sap.ui.core.BusyIndicator.show(iDelay);
+		},
+		syncData: function() {
+			var that = this;
+			var oModel = that.getOwnerComponent().getModel("MainService");
+			that.showBusyIndicator(0);
+			var offlineData = that.getOfflineData("offline");
+			$.each(offlineData, function(i, offlinedata) {
+				if (offlinedata.type === "C") {
+					function creatCall() {
+						var MaterialDesc = offlinedata.data.d.Description;
+						oModel.create(offlinedata.url, offlinedata.data, {
+							method: "POST",
+							success: function(data) {
+								that.showToster("Material '" + MaterialDesc + "' Is created");
+
+							},
+							error: function(e) {
+								that.showToster("Material '" + MaterialDesc + "' Is failed to created");
+							},async: true
+						});
+					}
+					setTimeout(creatCall, 1000);
+				}
+			});
+			return true;
+
+		},
+		getOfflineData: function(name) {
+			return JSON.parse(localStorage.getItem(name));
+		},
 		setConnection: function() {
 			var that = this;
 			if (navigator.onLine) {
-				that.getOwnerComponent().getModel("device").getData().connected = "Online"
-				setTimeout($("header").removeClass("offline"), 1000);
+				that.getOwnerComponent().getModel("device").getData().connected = "Online";
+				setTimeout(function() {
+					$("header").removeClass("offline");
+				}, 1000);
 			} else {
 				that.getOwnerComponent().getModel("device").getData().connected = "Offline";
-				setTimeout($("header").addClass("offline"), 1000);
+				setTimeout(function() {
+					$("header").addClass("offline");
+				}, 1000);
 			}
 			that.getOwnerComponent().getModel("device").refresh(true);
 

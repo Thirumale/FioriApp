@@ -28,7 +28,7 @@
 				<items>
 					<ObjectListItem type="{=${device>/system/phone} ? 'Active' : 'Inactive'}" press="onSelectionChange" title="{MaterialModel>Description}"
 						number="{ path: 'MaterialModel>Price', formatter: '.formatter.currencyValue' }" numberUnit="{MaterialModel>Unit}">
-						<ObjectAttribute title="Material ID" text="{MaterialModel>Material}"/>
+						<ObjectAttribute title="Material ID" text="{ path: 'MaterialModel>Material', formatter: '.formatter.emptyMId' }"/>
 						<ObjectAttribute title="Type" text="{MaterialModel>Type}"/>
 					</ObjectListItem>
 				</items>

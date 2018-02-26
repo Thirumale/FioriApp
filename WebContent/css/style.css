@@ -1,7 +1,13 @@
-.offline.sapMPageHeader{
-	background:lightgray;
-	color:#FFF;
+.offline.sapMPageHeader {
+    background: lightgray;
+    color: #FFF;
 }
-.searchWithButtons form{
-	width:89vw;
+
+.searchWithButtons form {
+    width: 89vw;
+}
+
+.sapMTextMaxLine {
+    font-weight: bold;
+    color: gray;
 }
